@@ -1,8 +1,8 @@
 Contribution [#]: [Issue Title]
 Contribution Number: [1 / 2 / 3]  
-Student: [Your Name]  
+Student: Mehbub Rohit  
 Issue: [GitHub issue link]  
-Status: [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+Status: Phase I
 ---
 Why I Chose This Issue
 [1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
