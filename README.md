@@ -1,11 +1,12 @@
 Contribution [#]: [Issue Title]
 Contribution Number: [1 / 2 / 3]  
 Student: Mehbub Rohit  
-Issue: [GitHub issue link]  
-Status: Phase I
+Issue: https://github.com/documentdb/functional-tests/issues/212  
+Status: Phase I Complete
 ---
 Why I Chose This Issue
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+  I chose this issue because it's well-scoped and has a clear definition of done: add compatibility test coverage for the $isNumber expression operator. It's part of a larger effort (#19) to cover the remaining second-pass expression operators, so there are around 20 sibling issues with completed examples I can model my work after instead of starting from scratch. That makes it a realistic first contribution rather than an open-ended one.
+  It also matches where I am right now as a contributor. The project is in Python, which I'm comfortable working in, and the task centers on writing tests rather than altering core behavior, so I can put my energy into learning the contribution workflow end to end (forking, branching, opening a PR, and responding to maintainer feedback) without also wrestling with an unfamiliar system. What I'm hoping to take away is a feel for how a real project structures its test suite and what its review process is actually like.
 ---
 Understanding the Issue
 Problem Description
