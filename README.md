@@ -1,8 +1,8 @@
-Contribution [#]: [Issue Title]
-Contribution Number: [1 / 2 / 3]  
+Contribution Log — Issue #212: Add $isNumber Compatibility Tests
+Contribution Number: 1
 Student: Mehbub Rohit  
 Issue: https://github.com/documentdb/functional-tests/issues/212  
-Status: Phase I Complete
+Status: Phase II Complete
 ---
 Why I Chose This Issue:
   I chose this issue because it's well-scoped and has a clear definition of done: add compatibility test coverage for the $isNumber expression operator. It's part of a larger effort (#19) to cover the remaining second-pass expression operators, so there are around 20 sibling issues with completed examples I can model my work after instead of starting from scratch. That makes it a realistic first contribution rather than an open-ended one.
@@ -10,42 +10,53 @@ Why I Chose This Issue:
 ---
 Understanding the Issue
 Problem Description
-[In your own words, what's broken or missing?]
+The `$isNumber` expression operator has only a smoke test (`test_smoke_isNumber.py`). A comparable operator like `$toDate` has three test files plus a utils folder. Issue #212 asks for "second pass" coverage, comprehensive tests beyond the smoke test.
 Expected Behavior
-[What should happen?]
+Full test coverage for all numeric types, all non-numeric types, null, missing, nested expressions, and use in pipeline stages beyond `$project`
 Current Behavior
-[What actually happens?]
+One smoke test covering only `int` → `true` and `string` → `false`
 Affected Components
-[Which parts of the codebase are involved?]
+documentdb_tests/compatibility/tests/core/operator/expressions/type/isNumber/
+
 ---
 Reproduction Process
 Environment Setup
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+- OS: Windows 11
+- Python: 3.13.0 (system install)
+- Shell: PowerShell
+- No setup errors encountered — the project's venv was already initialized
 Steps to Reproduce
-[Step 1]
-[Step 2]
+1. Navigate to documentdb_tests/compatibility/tests/core/operator/expressions/type/isNumber/
+2. Compare to the sibling toDate/ folder — it has test_smoke_toDate.py, test_toDate_basic.py, test_toDate_expressions.py, and a utils/ folder
+3. isNumber/ contains only test_smoke_isNumber.py — the second-pass coverage is missing
+
 [Observed result]
+Only 1 test exists for $isNumber. No coverage for numeric types, non-numeric types, null, or missing fields.
+
 Reproduction Evidence
-Commit showing reproduction: [Link to commit in your fork]
-Screenshots/logs: [If applicable]
-My findings: [What you discovered during reproduction]
+Commit showing reproduction: No commit needed — the gap is the absence of files. 
+Screenshots/logs: isNumber/ directory contains only test_smoke_isNumber.py
+My findings: The smoke test only checks int → true and string → false. All other BSON types (int64, double, Decimal128, bool, null, array, object, ObjectId, etc.) have no test coverage.
 ---
 Solution Approach
 Analysis
-[Your analysis of the root cause - what's causing the issue?]
+The problem here is not a bug but just a coverage gap. The $isNumber operator was given a smoke test in the first pass, but second-pass coverage was never added. 
 Proposed Solution
-[High-level description of your fix approach]
+Add three new test files to the isNumber/ folder covering: all numeric BSON types that return true, 
+all non-numeric types that return false, and null/missing field behavior.
 Implementation Plan
 Using UMPIRE framework (adapted):
-Understand: [Restate the problem]
-Match: [What similar patterns/solutions exist in the codebase?]
-Plan: [Step-by-step implementation plan]
-[Modify file X to do Y]
-[Add function Z]
-[Update tests]
-Implement: [Link to your branch/commits as you work]
-Review: [Self-review checklist - does it follow the project's contribution guidelines?]
-Evaluate: [How will you verify it works?]
+Understand: $isNumber returns true for int32, int64, double, and Decimal128. It returns false for all other types including null and missing fields. Only a smoke test exists; full type coverage is missing.
+Match: The $toDate operator is the closest sibling with second-pass tests. It uses execute_expression + execute_expression_with_insert from utils/utils.py, a parametrized BaseTestCase dataclass, and assert_expression_result for assertions.
+Plan: 
+1. Create isNumber/__init__.py (empty, required by folder structure validator)
+2. Create test_isNumber_numeric_types.py — parametrized tests for int32, int64, double, Decimal128 → true
+3. Create test_isNumber_non_numeric_types.py — parametrized tests for string, bool, array, object, ObjectId, Date, etc. → false
+4. Create test_isNumber_null_missing.py — null → false, missing field → false
+
+Implement: https://github.com/xMayble/functional-tests/tree/fix-issue-212
+Review: Follow CONTRIBUTING.md rules: docstrings on every test function, one assertion per test, use execute_command or one-layer wrappers only, run pre-commit hooks (black, isort, flake8) before pushing.
+Evaluate: Run pytest documentdb_tests/compatibility/tests/core/operator/expressions/type/isNumber/ -v against a MongoDB instance. All new tests should pass. Smoke test should still pass as regression check.
 ---
 Testing Strategy
 Unit Tests
