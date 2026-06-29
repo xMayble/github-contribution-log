@@ -11,7 +11,7 @@ Student: Mehbub Rohit
 
 Issue: documentdb/functional-tests#212
 
-Status: Phase III Complete
+Status: Phase IV Complete
 
 Branch: fix-issue-212
 
@@ -139,9 +139,11 @@ test_isNumber_non_numeric_types.py
 test_isNumber_null_missing.py
 
 
-Key commit: d8de588 — "Add $isNumber compatibility tests for numeric types, non-numeric types, null, and missing fields"
+Key commit: f532663 — "Add $isNumber compatibility tests (#212)"
 
 Branch: fix-issue-212
+
+Note: Before opening the PR, the original two work commits were rebased onto the latest upstream main and squashed into this single commit, with a DCO Signed-off-by line added (see Pull Request section below for why).
 
 Approach Decisions
 
@@ -151,10 +153,15 @@ Used a custom IsNumberTest dataclass extending BaseTestCase with a value field, 
 Pull Request
 
 
-PR link: To be submitted in Phase IV
-PR description: To be written in Phase IV
-Maintainer feedback: Pending
-Status: Awaiting PR submission
+PR link: https://github.com/documentdb/functional-tests/pull/653
+
+PR description: Adds compatibility test coverage for the $isNumber aggregation expression operator across numeric BSON types (int32, int64, double, Decimal128 — including NaN/Infinity/negative zero), non-numeric BSON types, and null/missing field inputs. Each case is exercised both as a literal expression and via a document field reference. Closes #212.
+
+Maintainer feedback: None yet — awaiting first review. The DCO check passed on submission; the build-and-push and MongoDB PR-test workflows are paused pending a maintainer's "approve workflows" (standard for a first-time contributor's fork PR).
+
+Status: Awaiting review
+
+Phase IV notes: My original commits were missing the DCO Signed-off-by line that CONTRIBUTING.md requires and CI enforces, so they would have failed the DCO check. I fixed this before submitting by rebasing onto the latest upstream main, squashing the two commits into one, and re-signing with Signed-off-by. The PR opened cleanly with DCO passing.
 
 
 
@@ -162,7 +169,7 @@ Learnings & Reflections
 
 Technical Skills Gained
 
-Learned how real open source projects structure parametrized test suites using dataclasses instead of anonymous tuples. Understood how the project's format validator enforces test quality at collection time rather than runtime.
+Learned how real open source projects structure parametrized test suites using dataclasses instead of anonymous tuples. Understood how the project's format validator enforces test quality at collection time rather than runtime. I also learned how the Developer Certificate of Origin (DCO) is enforced — every commit needs a Signed-off-by line — and how to safely rewrite local history (rebase onto upstream, squash, re-sign) and force-push with --force-with-lease to produce a clean, single, signed commit for review.
 
 Challenges Overcome
 
