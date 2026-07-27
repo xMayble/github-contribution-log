@@ -1,4 +1,4 @@
-Contribution Log — Issue #212: Add $isNumber Compatibility Tests
+Contribution Log — Issue #200
 
 
 Adding second-pass compatibility test coverage for the $isNumber expression operator in the DocumentDB functional test suite.
